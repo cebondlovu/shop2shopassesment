@@ -1,0 +1,92 @@
+#############  Versions  #############
+[versions]
+# Gradle & Kotlin – keep the ones you already use
+agp          = "8.10.0"
+kotlin       = "2.0.21"
+
+# Jetpack / AndroidX
+compose-bom  = "2025.05.01"
+compose      = "1.8.2"
+lifecycle    = "2.8.5"
+navigation   = "2.8.9"
+
+# Coroutines & Flow
+coroutines   = "1.10.1"
+
+# Persistence
+room         = "2.7.1"
+
+# Dependency-Injection
+koin         = "4.0.4"
+
+# Networking / JSON
+retrofit     = "3.0.0"
+okhttp       = "4.12.0"
+moshi        = "1.15.2"
+
+# KSP (annotation processing)
+ksp = "2.0.21-1.0.28"
+
+# Testing & misc. (you already had these)
+coreKtx      = "1.16.0"
+junit        = "4.13.2"
+junitExt     = "1.2.1"
+espressoCore = "3.6.1"
+appcompat    = "1.7.0"
+material     = "1.12.0"
+activity     = "1.10.1"
+constraint   = "2.2.1"
+
+desugar = "2.0.4"      # ← add
+
+#############  Plugins  #############
+[plugins]
+android-application = { id = "com.android.application",            version.ref = "agp"     }
+kotlin-android      = { id = "org.jetbrains.kotlin.android",       version.ref = "kotlin"  }
+compose             = { id = "org.jetbrains.kotlin.plugin.compose",version.ref = "kotlin"  }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+#############  Libraries  #############
+[libraries]
+# Jetpack Compose
+compose-bom             = { group = "androidx.compose",             name = "compose-bom",          version.ref = "compose-bom" }
+compose-ui              = { group = "androidx.compose.ui",          name = "ui",                   version.ref = "compose" }
+compose-material3       = { group = "androidx.compose.material3",   name = "material3" }
+compose-runtime         = { group = "androidx.compose.runtime",     name = "runtime" }
+compose-tooling-preview = { group = "androidx.compose.ui",          name = "ui-tooling-preview" }
+compose-tooling         = { group = "androidx.compose.ui",          name = "ui-tooling",           version.ref = "compose" }
+
+# Lifecycle & Navigation
+lifecycle-runtime-ktx   = { group = "androidx.lifecycle",           name = "lifecycle-runtime-ktx",    version.ref = "lifecycle" }
+lifecycle-viewmodel-cmp = { group = "androidx.lifecycle",           name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+navigation-compose      = { group = "androidx.navigation",          name = "navigation-compose",   version.ref = "navigation" }
+
+# Coroutines
+coroutines-android      = { group = "org.jetbrains.kotlinx",        name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+# Room + KSP
+room-runtime            = { group = "androidx.room",                name = "room-runtime",         version.ref = "room" }
+room-ktx                = { group = "androidx.room",                name = "room-ktx",             version.ref = "room" }
+room-compiler           = { group = "androidx.room",                name = "room-compiler",        version.ref = "room" }
+
+# Koin
+koin-android            = { group = "io.insert-koin",               name = "koin-android",         version.ref = "koin" }
+koin-compose            = { group = "io.insert-koin",               name = "koin-androidx-compose",version.ref = "koin" }
+
+# Networking
+retrofit                = { group = "com.squareup.retrofit2",       name = "retrofit",             version.ref = "retrofit" }
+retrofit-moshi          = { group = "com.squareup.retrofit2",       name = "converter-moshi",      version.ref = "retrofit" }
+okhttp-bom              = { group = "com.squareup.okhttp3",         name = "okhttp-bom",           version.ref = "okhttp" }
+okhttp                  = { group = "com.squareup.okhttp3",         name = "okhttp" }
+moshi                   = { group = "com.squareup.moshi",           name = "moshi",                version.ref = "moshi" }
+
+# Existing test / support libs kept intact
+androidx-core-ktx       = { group = "androidx.core",                name = "core-ktx",             version.ref = "coreKtx" }
+junit                   = { group = "junit",                        name = "junit",                version.ref = "junit" }
+androidx-junit          = { group = "androidx.test.ext",            name = "junit",                version.ref = "junitExt" }
+androidx-espresso-core  = { group = "androidx.test.espresso",       name = "espresso-core",        version.ref = "espressoCore" }
+androidx-appcompat      = { group = "androidx.appcompat",           name = "appcompat",            version.ref = "appcompat" }
+material                = { group = "com.google.android.material",  name = "material",             version.ref = "material" }
+androidx-activity       = { group = "androidx.activity",            name = "activity",             version.ref = "activity" }
+androidx-constraint     = { group = "androidx.constraintlayout",    name = "constraintlayout",     version.ref = "constraint" }
+desugar-jdk = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar" }
