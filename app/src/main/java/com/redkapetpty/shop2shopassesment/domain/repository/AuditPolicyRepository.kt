@@ -7,6 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface AuditPolicyRepository {
 	suspend fun  get(): AuditPolicy
 	fun observe(): Flow<AuditPolicy>
-	// this will automatically transform the stored policy
-	suspend fun  update(transform: (AuditPolicy) -> AuditPolicy)
+	suspend fun set(policy: AuditPolicy)
 }

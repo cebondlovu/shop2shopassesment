@@ -3,6 +3,7 @@ plugins {
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.compose)
 	alias(libs.plugins.ksp)
+	alias(libs.plugins.protobuf)
 }
 
 android {
@@ -35,6 +36,9 @@ android {
 	kotlinOptions {
 		jvmTarget = "11"
 	}
+
+	sourceSets["main"].java.srcDir("build/generated/source/proto/main/javalite")
+	sourceSets["main"].kotlin.srcDir("build/generated/source/proto/main/javalite")
 }
 
 dependencies {
@@ -45,6 +49,7 @@ dependencies {
 	implementation(libs.compose.material3)
 	implementation(libs.compose.runtime)
 	implementation(libs.compose.tooling.preview)
+	testImplementation(libs.androidx.core)
 	debugImplementation(libs.compose.tooling)
 
 	// Lifecycle & Navigation
@@ -66,13 +71,32 @@ dependencies {
 
 	coreLibraryDesugaring(libs.desugar.jdk)
 
+	implementation(libs.material3.android)
+
+	implementation(libs.datastore.core)
+	implementation(libs.protobuf.javalite)
+
 	// Networking
 	implementation(libs.retrofit)
 	implementation(libs.retrofit.moshi)
 	implementation(platform(libs.okhttp.bom))
 	implementation(libs.okhttp)
 	implementation(libs.moshi)
+	implementation(libs.androidx.core.ktx)
+	testImplementation(libs.coroutines.test)
+	testImplementation(libs.core.testing)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
+}
+
+protobuf {
+	protoc { artifact = "com.google.protobuf:protoc:${libs.versions.protobufLite.get()}" }
+	generateProtoTasks {
+		all().forEach { task ->
+			task.builtins {
+				create("java") { option("lite") } // this will generate of javalite classes
+			}
+		}
+	}
 }
