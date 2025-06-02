@@ -17,7 +17,7 @@ architecture.
 
 ## Class-by-class walkthrough
 | Layer | Class | Why it exists |
-
+|-------|-------|---------------|
 | **Domain / model** | `Transaction.kt` | Immutable POJO representing a ledger entry. Stores epoch-millis `timestamp` (API 24-safe). |
 | **Domain / model** | `AuditPolicy.kt` | Business rule object that decides **shouldFlag(tx)**. Encapsulates threshold and keyword logic – keeps rules out of UI. |
 | **Domain / repository ports** | `TransactionRepository.kt` | Boundary for CRUD + streaming ledger changes; hides Room / network. |
@@ -51,8 +51,19 @@ architecture.
 
 ## Testing approach
 | Type | File | Rationale |
-
+|------|------|-----------|
 | **DAO test** | `TransactionDaoTest` | Verifies CRUD & Flow emission in an in-memory DB. |
 | **DataStore test** | `AuditPolicyRepositoryTest` | Confirms Proto serializer round-trip and Flow updates. |
 | **Repository test** | `TransactionRepositoryImplTest` | Uses fake DAO + fake API to test local-first + push behaviour. |
 | **Business rule test** | `AddTransactionUseCaseTest` | Ensures flags trigger at threshold. |
+
+
+## 💡 Implementation choices
+
+| Decision | Reason |
+|----------|--------|
+| **Koin** over Hilt | Zero-reflection, faster compile times; ideal for prototype. |
+| **Epoch-millis `Long`** in domain | Avoids java.time API 26 requirement; domain remains platform-agnostic. |
+| **Proto DataStore** | Binary, forward-compatible, single source of truth vs SharedPrefs. |
+| **Fire-and-forget network** | UX never blocked; backend can reconcile. |
+| **Extensive previews** | Speeds up design tweaks without launching emulator. |
