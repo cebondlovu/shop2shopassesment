@@ -26,7 +26,7 @@ architecture.
 | **Domain / use-cases**            | `DeleteTransactionUseCase.kt`   | Encapsulates removal logic; keeps UI unaware of DAO. |
 | **Domain / use-cases**            | `ObserveTransactionsUseCase.kt` | Exposes cold Flow; simplifies ViewModel subscription. |
 | **Domain / use-cases**            | `UpdateAuditPolicyUseCase.kt`   | Persists new rules atomically; no direct DataStore calls elsewhere. |
-| **Domain / use-cases**            | `ObserveTransactionsUseCase.kt` | Cold `Flow`; ViewModel collects once. |
+| **Domain / use-cases**            | `UpdateTransactionUseCase.kt` | Cold `Flow`; ViewModel collects once. |
 | **Core util**                     | `Resource.kt`                   | Sealed wrapper → `Loading / Success / Error`. Standardises state across screens. |
 | **Data / Room**                   | `TransactionEntity.kt`          | SQL schema + primary key. |
 | **Data / Room**                   | `TransactionDao.kt`             | All DB access in one place → easier to test and migrate. |
