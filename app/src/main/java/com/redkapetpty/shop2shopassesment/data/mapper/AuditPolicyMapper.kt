@@ -5,7 +5,9 @@ import com.redkapetpty.shop2shopassesment.domain.model.AuditPolicy
 import java.math.BigDecimal
 
 fun AuditPolicyProto.auditPolicyToDomain() = AuditPolicy(
-	threshold = BigDecimal(threshold),
+	threshold = threshold.takeIf { it.isNotBlank() }
+		?.let{BigDecimal(threshold)}
+		?: BigDecimal.ZERO,
 	keywords = keywordsList.toSet())
 
 fun AuditPolicy.toProto() = AuditPolicyProto.newBuilder()

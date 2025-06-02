@@ -45,6 +45,7 @@
     coroutinesTest = "1.10.1"
     coreTesting    = "2.2.0"
     core = "1.6.1"
+    robolectric = "4.12.2"
 
     #############  Plugins  #############
     [plugins]
@@ -106,3 +107,4 @@
     coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest"}
     core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTesting"}
     androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+    robolectric = { group = "org.robolectric", name = "robolectric" , version.ref = "robolectric"}

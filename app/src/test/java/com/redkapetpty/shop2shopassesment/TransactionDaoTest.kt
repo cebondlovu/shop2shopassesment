@@ -14,9 +14,11 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import java.math.BigDecimal
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@RunWith(RobolectricTestRunner::class)
 class TransactionDaoTest {
 	@get:Rule val instant = InstantTaskExecutorRule()
 	@get:Rule val main = MainDispatcherRule()

@@ -16,11 +16,14 @@ import com.redkapetpty.shop2shopassesment.domain.usecase.AddTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.DeleteTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.ObserveTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.UpdateAuditPolicyUseCase
+import com.redkapetpty.shop2shopassesment.ui.viewmodel.SettingsViewModel
+import com.redkapetpty.shop2shopassesment.ui.viewmodel.TransactionViewModel
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
+import org.koin.androidx.viewmodel.dsl.viewModel
 
 val appModule = module {
 
@@ -62,5 +65,7 @@ val appModule = module {
 	factory { ObserveTransactionUseCase(get()) }
 	factory { UpdateAuditPolicyUseCase(get()) }
 
-	//Viewmodel lets write some unit tests then our viewmodel
+	//Viewmodel
+	viewModel { TransactionViewModel(get(), get(), get()) }
+	viewModel { SettingsViewModel(get(), get()) }
 }

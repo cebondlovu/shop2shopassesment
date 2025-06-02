@@ -72,6 +72,7 @@ dependencies {
 	coreLibraryDesugaring(libs.desugar.jdk)
 
 	implementation(libs.material3.android)
+	implementation(libs.androidx.material3)
 
 	implementation(libs.datastore.core)
 	implementation(libs.protobuf.javalite)
@@ -86,6 +87,7 @@ dependencies {
 	testImplementation(libs.coroutines.test)
 	testImplementation(libs.core.testing)
 	testImplementation(libs.junit)
+	testImplementation(libs.robolectric)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
 }
