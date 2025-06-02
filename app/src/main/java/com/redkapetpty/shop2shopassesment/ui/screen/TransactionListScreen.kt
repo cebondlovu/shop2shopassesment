@@ -35,44 +35,53 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionListScreen(nav: NavController, vm: TransactionViewModel = koinViewModel()) {
-	// will change the by to a = if I run into issue while running
+fun TransactionListScreen(
+	nav: NavController,
+	vm : TransactionViewModel = koinViewModel()
+                         ) {
 	val state by vm.state.collectAsState()
-	var showDialog by remember { mutableStateOf(false) }
+	var dialogMode by remember { mutableStateOf<DialogMode?>(null) }
 
-	Scaffold (
+	Scaffold(
 		topBar = {
 			TopAppBar(
 				title = { Text("Transactions") },
 				actions = {
-				IconButton(onClick = { nav.navigate("settings") }) {
-					Icon(Icons.Default.Settings, null)
+					IconButton(onClick = { nav.navigate("settings") }) {
+						Icon(Icons.Default.Settings, null)
+					}
 				}
-			})
+			         )
 		},
 		floatingActionButton = {
-			FloatingActionButton(onClick = { showDialog = true }) {
+			FloatingActionButton(onClick = { dialogMode = DialogMode.Add }) {
 				Icon(Icons.Default.Add, null)
 			}
-		}) { pad ->
+		}
+	        ) { pad ->
 		Box(Modifier.padding(pad)) {
-			when(state) {
+			when (state) {
 				is Resource.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-				is Resource.Error -> Text("Error", Modifier.align(Alignment.Center))
+				is Resource.Error   -> Text("Error", Modifier.align(Alignment.Center))
 				is Resource.Success -> {
 					val list = (state as Resource.Success<List<Transaction>>).data
 					LazyColumn {
-						items(list) { tx ->
+						items(list, key = { it.id }) { tx ->
 							ListItem(
-								headlineContent = { Text(tx.title)},
+								headlineContent = { Text(tx.title) },
 								supportingContent = {
 									Text("R ${tx.amount}")
-									if (tx.flaggedForAudit) Text("Audit")
+									if (tx.flaggedForAudit) Text("⚠️ Audit")
 								},
 								leadingContent = {
-									Icon(Icons.Default.Delete, null,
-									     Modifier.clickable{ vm.delete(tx)})}
-									)
+									Icon(
+										imageVector = Icons.Default.Delete,
+										contentDescription = null,
+										modifier = Modifier.clickable { vm.delete(tx) }
+									    )
+								},
+								modifier = Modifier.clickable { dialogMode = DialogMode.Edit(tx) }
+							        )
 							Divider()
 						}
 					}
@@ -81,11 +90,27 @@ fun TransactionListScreen(nav: NavController, vm: TransactionViewModel = koinVie
 		}
 	}
 
-	if(showDialog) AddTransactionDialog (
-		onConfirm = { title, amount ->
-			vm.add(title, amount)
-			showDialog = false
-		},
-		onDismiss = { showDialog = false})
+	when (val m = dialogMode) {
+		DialogMode.Add -> EditTransactionDialog(
+			onConfirm = { t, a ->
+				vm.add(t, a)
+				dialogMode = null
+			},
+			onDismiss = { dialogMode = null }
+		                                       )
+		is DialogMode.Edit -> EditTransactionDialog(
+			original = m.tx,
+			onConfirm = { t, a ->
+				vm.edit(m.tx, t, a)
+				dialogMode = null
+			},
+			onDismiss = { dialogMode = null }
+		                                           )
+		null -> {}
+	}
 }
 
+private sealed interface DialogMode {
+	object Add : DialogMode
+	data class Edit(val tx: Transaction) : DialogMode
+}

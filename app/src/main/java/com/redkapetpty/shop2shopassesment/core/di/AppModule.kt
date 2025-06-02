@@ -16,6 +16,7 @@ import com.redkapetpty.shop2shopassesment.domain.usecase.AddTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.DeleteTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.ObserveTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.UpdateAuditPolicyUseCase
+import com.redkapetpty.shop2shopassesment.domain.usecase.UpdateTransactionUseCase
 import com.redkapetpty.shop2shopassesment.ui.viewmodel.SettingsViewModel
 import com.redkapetpty.shop2shopassesment.ui.viewmodel.TransactionViewModel
 import okhttp3.OkHttpClient
@@ -64,8 +65,9 @@ val appModule = module {
 	factory { DeleteTransactionUseCase(get()) }
 	factory { ObserveTransactionUseCase(get()) }
 	factory { UpdateAuditPolicyUseCase(get()) }
+	factory { UpdateTransactionUseCase(get()) }
 
 	//Viewmodel
-	viewModel { TransactionViewModel(get(), get(), get()) }
+	viewModel { TransactionViewModel(get(), get(), get(), get()) }
 	viewModel { SettingsViewModel(get(), get()) }
 }

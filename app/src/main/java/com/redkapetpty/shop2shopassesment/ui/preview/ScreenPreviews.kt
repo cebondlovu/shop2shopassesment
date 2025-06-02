@@ -13,11 +13,14 @@ import com.redkapetpty.shop2shopassesment.domain.usecase.AddTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.DeleteTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.ObserveTransactionUseCase
 import com.redkapetpty.shop2shopassesment.domain.usecase.UpdateAuditPolicyUseCase
+import com.redkapetpty.shop2shopassesment.domain.usecase.UpdateTransactionUseCase
 import com.redkapetpty.shop2shopassesment.ui.screen.AddTransactionDialog
 import com.redkapetpty.shop2shopassesment.ui.screen.AuditPolicyScreen
+import com.redkapetpty.shop2shopassesment.ui.screen.EditTransactionDialog
 import com.redkapetpty.shop2shopassesment.ui.screen.TransactionListScreen
 import com.redkapetpty.shop2shopassesment.ui.viewmodel.SettingsViewModel
 import com.redkapetpty.shop2shopassesment.ui.viewmodel.TransactionViewModel
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -51,8 +54,10 @@ private val observeUC = ObserveTransactionUseCase(PreviewTxRepo())
 private val addUC = AddTransactionUseCase(PreviewTxRepo(), PreviewPolicyRepo())
 private val deleteUC = DeleteTransactionUseCase(PreviewTxRepo())
 private val updateUC = UpdateAuditPolicyUseCase(PreviewPolicyRepo())
+private val editUC = UpdateTransactionUseCase(PreviewTxRepo())
 
-private val txVM = TransactionViewModel(observeUC, addUC, deleteUC).apply {
+@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
+private val txVM = TransactionViewModel(observeUC, addUC, deleteUC, editUC).apply {
 	@Suppress("UNCHECKED_CAST")
 	(this as Object).javaClass
 		.getDeclaredField("state")
@@ -82,6 +87,12 @@ private val settingsVM = SettingsViewModel(PreviewPolicyRepo(), updateUC)
 	}
 }
 
+@Composable private fun EditTransactionDialogPreviewContent() {
+	MaterialTheme {
+		EditTransactionDialog(onConfirm = {_, _-> }, onDismiss = {})
+	}
+}
+
 @Composable private fun AuditPolicyPreviewContent() {
 	MaterialTheme {
 		AuditPolicyScreen(nav = rememberNavController(), vm = settingsVM)
@@ -99,3 +110,7 @@ fun AddTransactionDialogPreview() = AddTransactionDialogPreviewContent()
 @Preview(showBackground = true, name = "AuditPolicyScreen")
 @Composable
 fun AuditPolicyPreview() = AuditPolicyPreviewContent()
+
+@Preview(showBackground = true, name = "EditTransactionDialog")
+@Composable
+fun EditTransactionDialogPreview() = EditTransactionDialogPreviewContent()
