@@ -49,6 +49,7 @@ dependencies {
 	implementation(libs.compose.material3)
 	implementation(libs.compose.runtime)
 	implementation(libs.compose.tooling.preview)
+	implementation(libs.androidx.navigation.common)
 	testImplementation(libs.androidx.core)
 	debugImplementation(libs.compose.tooling)
 
@@ -76,6 +77,7 @@ dependencies {
 
 	implementation(libs.datastore.core)
 	implementation(libs.protobuf.javalite)
+	implementation(libs.navigation.compose)
 
 	// Networking
 	implementation(libs.retrofit)
